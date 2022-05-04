@@ -6,8 +6,6 @@ from contacts_model import Contact
 
 Contact.load_db()
 
-
-
 # ========================================================
 # Flask App
 # ========================================================
@@ -16,9 +14,11 @@ app = Flask(__name__)
 
 app.secret_key = b'hypermedia rocks'
 
+
 @app.route("/")
 def index():
     return redirect("/contacts")
+
 
 @app.route("/contacts")
 def contacts():
