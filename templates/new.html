@@ -1,0 +1,35 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<form action="/contacts/new" method="post">
+    <fieldset>
+        <legend>Contact Values</legend>
+        <div class="table rows">
+            <p>
+                <label for="first_name">First Name</label>
+                <input name="first_name" id="first_name" type="text" placeholder="First Name">
+            </p>
+            <p>
+                <label for="last_name">Last Name</label>
+                <input name="last_name" id="last_name" type="text" placeholder="Last Name">
+            </p>
+            <p>
+                <label for="phone">Phone</label>
+                <input name="phone" id="phone" type="text" placeholder="Phone">
+            </p>
+            <p>
+                <label for="email">Email</label>
+                <input name="email" id="email" type="text" placeholder="Email">
+            </p>
+        </div>
+        <button>Save</button>
+    </fieldset>
+</form>
+
+<p>
+    <a href="/contacts">Back</a>
+</p>
+
+
+{% endblock %}
