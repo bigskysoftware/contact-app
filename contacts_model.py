@@ -9,12 +9,13 @@ class Contact:
     # mock contacts database
     db = []
 
-    def __init__(self, id, first, last, phone, email):
+    def __init__(self, id=None, first=None, last=None, phone=None, email=None):
         self.id = id
         self.first = first
         self.last = last
         self.phone = phone
         self.email = email
+        self.errors = {}
 
     def __str__(self):
         return json.dumps(dict(self), ensure_ascii=False)
@@ -24,9 +25,22 @@ class Contact:
         self.last = last
         self.phone = phone
         self.email = email
+        if not self.validate():
+            return False
         self.save()
+        return True
+
+    def validate(self):
+        if not self.email:
+            self.errors['email'] = "Email Required"
+        existing_contact = next(filter(lambda c: c.id != self.id and c.email == self.email, Contact.db), None)
+        if existing_contact:
+            self.errors['email'] = "Email Must Be Unique"
+        return len(self.errors) == 0
 
     def save(self):
+        if not self.validate():
+            return False
         if self.id is None:
             if len(Contact.db) == 0:
                 max_id = 1
@@ -35,6 +49,7 @@ class Contact:
             self.id = max_id + 1
             Contact.db.append(self)
         Contact.save_db()
+        return True
 
     def delete(self):
         Contact.db.remove(self)
@@ -80,4 +95,5 @@ class Contact:
     def find(id):
         id = int(id)
         c = next(filter(lambda c: c.id == id, Contact.db), None)
+        c.errors = {}
         return c

@@ -8,3 +8,12 @@
     border-radius: 8px;
     margin: 16px;
 }
+
+table {
+    width: 100%;
+}
+
+.error {
+    display: inline-block;
+    color: darkred;
+}

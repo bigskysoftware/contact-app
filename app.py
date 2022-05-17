@@ -32,15 +32,16 @@ def contacts():
 
 @app.route("/contacts/new", methods=['POST', 'GET'])
 def contacts_new():
-    if request.method == 'POST':
+    if request.method == 'GET':
+        return render_template("new.html", contact=Contact())
+    else:
         c = Contact(None, request.form['first_name'], request.form['last_name'], request.form['phone'],
                     request.form['email'])
-        c.save()
-        flash("Created New Contact!")
-        return redirect("/contacts")
-    else:
-        return render_template("new.html")
-
+        if c.save():
+            flash("Created New Contact!")
+            return redirect("/contacts")
+        else:
+            return render_template("new.html", contact=c)
 
 @app.route("/contacts/<contact_id>")
 def contacts_view(contact_id=0):
@@ -51,13 +52,15 @@ def contacts_view(contact_id=0):
 @app.route("/contacts/<contact_id>/edit", methods=["POST", "GET"])
 def contacts_edit(contact_id=0):
     contact = Contact.find(contact_id)
-    if request.method == 'POST':
-        contact.update(request.form['first_name'], request.form['last_name'], request.form['phone'],
-                       request.form['email'])
-        flash("Updated Contact!")
-        return redirect("/contacts/" + str(contact_id))
-    else:
+    if request.method == 'GET':
         return render_template("edit.html", contact=contact)
+    else:
+        if contact.update(request.form['first_name'], request.form['last_name'], request.form['phone'],
+                       request.form['email']):
+            flash("Updated Contact!")
+            return redirect("/contacts/" + str(contact_id))
+        else:
+            return render_template("edit.html", contact=contact)
 
 
 @app.route("/contacts/<contact_id>/delete", methods=["POST"])
