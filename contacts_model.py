@@ -7,10 +7,10 @@ from operator import attrgetter
 # ========================================================
 class Contact:
     # mock contacts database
-    db = []
+    db = {}
 
-    def __init__(self, id=None, first=None, last=None, phone=None, email=None):
-        self.id = id
+    def __init__(self, id_=None, first=None, last=None, phone=None, email=None):
+        self.id = id_
         self.first = first
         self.last = last
         self.phone = phone
@@ -18,7 +18,7 @@ class Contact:
         self.errors = {}
 
     def __str__(self):
-        return json.dumps(dict(self), ensure_ascii=False)
+        return json.dumps(self.__dict__, ensure_ascii=False)
 
     def update(self, first, last, phone, email):
         self.first = first
@@ -33,7 +33,7 @@ class Contact:
     def validate(self):
         if not self.email:
             self.errors['email'] = "Email Required"
-        existing_contact = next(filter(lambda c: c.id != self.id and c.email == self.email, Contact.db), None)
+        existing_contact = next(filter(lambda c: c.id != self.id and c.email == self.email, Contact.db.values()), None)
         if existing_contact:
             self.errors['email'] = "Email Must Be Unique"
         return len(self.errors) == 0
@@ -45,55 +45,47 @@ class Contact:
             if len(Contact.db) == 0:
                 max_id = 1
             else:
-                max_id = max(Contact.db, key=lambda contact: contact.id).id
+                max_id = max(contact.id for contact in Contact.db.values())
             self.id = max_id + 1
-            Contact.db.append(self)
+            Contact.db[self.id] = self
         Contact.save_db()
         return True
 
     def delete(self):
-        Contact.db.remove(self)
+        del Contact.db[self.id]
         Contact.save_db()
 
+    @classmethod
+    def all(cls):
+        return list(cls.db.values())
 
-    @staticmethod
-    def all():
-        return Contact.db
-
-
-    @staticmethod
-    def search(str):
+    @classmethod
+    def search(cls, text):
         result = []
-        for c in Contact.db:
-            if str in c.first or str in c.last or str in c.email or str in c.phone:
+        for c in cls.db.values():
+            if text in c.first or text in c.last or text in c.email or text in c.phone:
                 result.append(c)
         return result
 
-
-    @staticmethod
-    def load_db():
+    @classmethod
+    def load_db(cls):
         with open('contacts.json', 'r') as contacts_file:
-            contacts = json.loads(contacts_file.read())
-            Contact.db.clear()
+            contacts = json.load(contacts_file)
+            cls.db.clear()
             for c in contacts:
-                Contact.db.append(Contact(c['id'], c['first'], c['last'], c['phone'], c['email']))
-
+                cls.db[c['id']] = Contact(c['id'], c['first'], c['last'], c['phone'], c['email'])
 
     @staticmethod
     def save_db():
-        out_arr = []
-        for c in Contact.db:
-            out_arr.append(c.__dict__)
-        print(out_arr)
-        json_str = json.dumps(out_arr)
-        f = open("contacts.json", "w")
-        f.write(json_str)
-        f.close()
+        out_arr = [c.__dict__ for c in Contact.db.values()]
+        with open("contacts.json", "w") as f:
+            json.dump(out_arr, f, indent=2)
 
+    @classmethod
+    def find(cls, id_):
+        id_ = int(id_)
+        c = cls.db.get(id_)
+        if c is not None:
+            c.errors = {}
 
-    @staticmethod
-    def find(id):
-        id = int(id)
-        c = next(filter(lambda c: c.id == id, Contact.db), None)
-        c.errors = {}
         return c
