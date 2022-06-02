@@ -25,10 +25,6 @@ class Contact:
         self.last = last
         self.phone = phone
         self.email = email
-        if not self.validate():
-            return False
-        self.save()
-        return True
 
     def validate(self):
         if not self.email:

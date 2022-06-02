@@ -60,13 +60,13 @@ def contacts_edit_get(contact_id=0):
 
 @app.route("/contacts/<contact_id>/edit", methods=["POST"])
 def contacts_edit_post(contact_id=0):
-    contact = Contact.find(contact_id)
-    if contact.update(request.form['first_name'], request.form['last_name'], request.form['phone'],
-                      request.form['email']):
+    c = Contact.find(contact_id)
+    c.update(request.form['first_name'], request.form['last_name'], request.form['phone'], request.form['email'])
+    if c.save():
         flash("Updated Contact!")
         return redirect("/contacts/" + str(contact_id))
     else:
-        return render_template("edit.html", contact=contact)
+        return render_template("edit.html", contact=c)
 
 
 @app.route("/contacts/<contact_id>/delete", methods=["POST"])
