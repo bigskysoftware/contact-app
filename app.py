@@ -69,6 +69,14 @@ def contacts_edit_post(contact_id=0):
         return render_template("edit.html", contact=c)
 
 
+@app.route("/contacts/<contact_id>/email", methods=["GET"])
+def contacts_email_get(contact_id=0):
+    c = Contact.find(contact_id)
+    c.email = request.args.get('email')
+    c.validate()
+    return c.errors.get('email') or ""
+
+
 @app.route("/contacts/<contact_id>", methods=["DELETE"])
 def contacts_delete(contact_id=0):
     contact = Contact.find(contact_id)

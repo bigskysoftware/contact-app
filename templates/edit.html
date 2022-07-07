@@ -8,7 +8,10 @@
             <div class="table rows">
                 <p>
                     <label for="email">Email</label>
-                    <input name="email" id="email" type="text" placeholder="Email" value="{{ contact.email }}">
+                    <input name="email" id="email" type="email"
+                           hx-get="/contacts/{{ contact.id }}/email" hx-target="next .error"
+                           hx-trigger="change, keyup delay:200ms"
+                           placeholder="Email" value="{{ contact.email }}">
                     <span class="error">{{ contact.errors['email'] }}</span>
                 </p>
                 <p>
