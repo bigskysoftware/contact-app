@@ -23,11 +23,12 @@ def index():
 @app.route("/contacts")
 def contacts():
     search = request.args.get("q")
+    page = int(request.args.get("page", 1))
     if search:
         contacts_set = Contact.search(search)
     else:
-        contacts_set = Contact.all()
-    return render_template("index.html", contacts=contacts_set)
+        contacts_set = Contact.all(page)
+    return render_template("index.html", contacts=contacts_set, page=page)
 
 
 @app.route("/contacts/new", methods=['GET'])

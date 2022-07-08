@@ -52,8 +52,11 @@ class Contact:
         Contact.save_db()
 
     @classmethod
-    def all(cls):
-        return list(cls.db.values())
+    def all(cls, page):
+        page = int(page)
+        start = (page - 1) * 10
+        end = start + 10
+        return list(cls.db.values())[start:end]
 
     @classmethod
     def search(cls, text):

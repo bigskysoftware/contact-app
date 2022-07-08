@@ -31,6 +31,16 @@
         {% endfor %}
         </tbody>
     </table>
+    <div>
+        <span  style="float: right">
+            {% if page > 1 %}
+              <a href="/contacts?page={{ page - 1 }}">Previous</a>
+            {% endif %}
+            {% if contacts|length == 10 %}
+              <a href="/contacts?page={{ page + 1 }}">Next</a>
+            {% endif %}
+        </span>
+    </div>
 
     <p>
         <a href="/contacts/new">Add Contact</a>
