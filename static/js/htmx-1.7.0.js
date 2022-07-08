@@ -1391,10 +1391,10 @@ return (function () {
                 elt.setAttribute('data-hx-revealed', 'true');
                 var nodeData = getInternalData(elt);
                 if (nodeData.initialized) {
-                    handler(elt);
+                    triggerEvent(elt, 'revealed');
                 } else {
                     // if the node isn't initialized, wait for it before triggering the request
-                    elt.addEventListener("htmx:afterProcessNode", function(evt) { handler(elt) }, {once: true});
+                    elt.addEventListener("htmx:afterProcessNode", function(evt) { triggerEvent(elt, 'revealed') }, {once: true});
                 }
             }
         }
@@ -1651,6 +1651,7 @@ return (function () {
                 processSSETrigger(elt, handler, triggerSpec.sseEvent);
             } else if (triggerSpec.trigger === "revealed") {
                 initScrollHandler(handler);
+                addEventListener(elt, handler, nodeData, triggerSpec);
                 maybeReveal(elt, handler);
             } else if (triggerSpec.trigger === "intersect") {
                 var observerOptions = {};
