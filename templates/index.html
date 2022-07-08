@@ -29,19 +29,18 @@
                 <td><a href="/contacts/{{ contact.id }}/edit">Edit</a> <a href="/contacts/{{ contact.id }}">View</a></td>
             </tr>
         {% endfor %}
+        {% if contacts|length == 10 %}
+            <tr>
+                <td colspan="5" style="text-align: center">
+                    <button hx-target="closest tr"
+                            hx-swap="outerHTML"
+                            hx-select="tbody > tr"
+                            hx-get="/contacts?page={{ page + 1 }}">Load More</button>
+                </td>
+            </tr>
+        {% endif %}
         </tbody>
     </table>
-    <div>
-        <span  style="float: right">
-            {% if page > 1 %}
-              <a href="/contacts?page={{ page - 1 }}">Previous</a>
-            {% endif %}
-            {% if contacts|length == 10 %}
-              <a href="/contacts?page={{ page + 1 }}">Next</a>
-            {% endif %}
-        </span>
-    </div>
-
     <p>
         <a href="/contacts/new">Add Contact</a>
     </p>
