@@ -2,6 +2,17 @@
 
 {% block content %}
 
+    <form action="/contacts" method="get" class="tool-bar">
+        <label for="search">Search Term</label>
+        <input id="search" type="search" name="q" value="{{ request.args.get('q') or '' }}"
+               hx-get="/contacts"
+               hx-trigger="search, keyup delay:200ms changed"
+               hx-target="tbody"
+               hx-push-url="true"
+               hx-indicator="#spinner"/>
+        <img id="spinner" class="htmx-indicator" src="/static/img/spinning-circles.svg"/>
+        <input type="submit" value="Search"/>
+    </form>
 
     <table>
         <thead>
@@ -14,26 +25,7 @@
         </tr>
         </thead>
         <tbody>
-        {% for contact in contacts %}
-            <tr>
-                <td>{{ contact.first }}</td>
-                <td>{{ contact.last }}</td>
-                <td>{{ contact.phone }}</td>
-                <td>{{ contact.email }}</td>
-                <td><a href="/contacts/{{ contact.id }}/edit">Edit</a> <a href="/contacts/{{ contact.id }}">View</a></td>
-            </tr>
-        {% endfor %}
-        {% if contacts|length == 10 %}
-            <tr>
-                <td colspan="5" style="text-align: center">
-                    <span hx-target="closest tr"
-                            hx-trigger="revealed"
-                            hx-swap="outerHTML"
-                            hx-select="tbody > tr"
-                            hx-get="/contacts?page={{ page + 1 }}">Loading More...</span>
-                </td>
-            </tr>
-        {% endif %}
+        {% include 'rows.html' %}
         </tbody>
     </table>
     <p>

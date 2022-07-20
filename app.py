@@ -1,8 +1,8 @@
 from flask import (
     Flask, redirect, render_template, request, flash
 )
-
 from contacts_model import Contact
+import time
 
 Contact.load_db()
 
@@ -26,6 +26,8 @@ def contacts():
     page = int(request.args.get("page", 1))
     if search:
         contacts_set = Contact.search(search)
+        if request.headers.get('HX-Trigger') == 'search':
+            return render_template("rows.html", contacts=contacts_set, page=page)
     else:
         contacts_set = Contact.all(page)
     return render_template("index.html", contacts=contacts_set, page=page)
