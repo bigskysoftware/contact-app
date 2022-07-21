@@ -1,5 +1,6 @@
 import json
 from operator import attrgetter
+import time
 
 
 # ========================================================
@@ -52,11 +53,16 @@ class Contact:
         Contact.save_db()
 
     @classmethod
+    def count(cls):
+        time.sleep(2)
+        return len(cls.db)
+
+    @classmethod
     def all(cls, page):
         page = int(page)
         start = (page - 1) * 10
         end = start + 10
-        return list(cls.db.values())[start:end]
+        return list(cls.db.values())
 
     @classmethod
     def search(cls, text):

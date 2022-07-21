@@ -32,6 +32,10 @@ def contacts():
         contacts_set = Contact.all(page)
     return render_template("index.html", contacts=contacts_set, page=page)
 
+@app.route("/contacts/count")
+def contacts_count():
+        count = Contact.count()
+        return "(" + str(count) + " total Contacts)"
 
 @app.route("/contacts/new", methods=['GET'])
 def contacts_new_get():
