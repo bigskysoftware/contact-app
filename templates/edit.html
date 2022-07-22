@@ -36,7 +36,8 @@
         </fieldset>
     </form>
 
-    <button hx-delete="/contacts/{{ contact.id }}"
+    <button id="delete-btn"
+            hx-delete="/contacts/{{ contact.id }}"
             hx-push-url="true"
             hx-confirm="Are you sure you want to delete this contact?"
             hx-target="body">

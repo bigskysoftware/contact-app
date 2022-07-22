@@ -144,35 +144,11 @@
     "errors": {}
   },
   {
-    "id": 21,
-    "first": "Joe",
-    "last": "Blow",
-    "phone": "123-456-7890",
-    "email": "joe16@example.com",
-    "errors": {}
-  },
-  {
     "id": 22,
     "first": "Joe",
     "last": "Blow",
     "phone": "123-456-7890",
     "email": "joe17@example.com",
-    "errors": {}
-  },
-  {
-    "id": 23,
-    "first": "Joe",
-    "last": "Blow",
-    "phone": "123-456-7890",
-    "email": "joe18@example.com",
-    "errors": {}
-  },
-  {
-    "id": 24,
-    "first": "Joe",
-    "last": "Blow",
-    "phone": "123-456-7890",
-    "email": "joe19@example.com",
     "errors": {}
   }
 ]
