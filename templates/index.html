@@ -10,13 +10,15 @@
                hx-target="tbody"
                hx-push-url="true"
                hx-indicator="#spinner"/>
-        <img id="spinner" class="htmx-indicator" src="/static/img/spinning-circles.svg"/>
+        <img style="height: 20px" id="spinner" class="htmx-indicator" src="/static/img/spinning-circles.svg"/>
         <input type="submit" value="Search"/>
     </form>
 
+    <form>
     <table>
         <thead>
         <tr>
+            <th></th>
             <th>First</th>
             <th>Last</th>
             <th>Phone</th>
@@ -28,10 +30,16 @@
         {% include 'rows.html' %}
         </tbody>
     </table>
+        <button hx-delete="/contacts"
+                hx-confirm="Are you sure you want to delete these contacts?"
+                hx-target="body">
+            Delete Selected Contacts
+        </button>
+    </form>
     <p>
         <a href="/contacts/new">Add Contact</a>
         <span hx-get="/contacts/count" hx-trigger="revealed">
-          <img id="spinner" class="htmx-indicator" src="/static/img/spinning-circles.svg"/>
+          <img id="spinner" style="height: 20px"  class="htmx-indicator" src="/static/img/spinning-circles.svg"/>
         </span>
     </p>
 

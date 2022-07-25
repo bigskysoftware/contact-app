@@ -118,37 +118,5 @@
     "phone": "123-456-7890",
     "email": "joe12@example.com",
     "errors": {}
-  },
-  {
-    "id": 18,
-    "first": "Joe",
-    "last": "Blow",
-    "phone": "123-456-7890",
-    "email": "joe13@example.com",
-    "errors": {}
-  },
-  {
-    "id": 19,
-    "first": "Joe",
-    "last": "Blow",
-    "phone": "123-456-7890",
-    "email": "joe14@example.com",
-    "errors": {}
-  },
-  {
-    "id": 20,
-    "first": "Joe",
-    "last": "Blow",
-    "phone": "123-456-7890",
-    "email": "joe15@example.com",
-    "errors": {}
-  },
-  {
-    "id": 22,
-    "first": "Joe",
-    "last": "Blow",
-    "phone": "123-456-7890",
-    "email": "joe17@example.com",
-    "errors": {}
   }
 ]

@@ -32,10 +32,12 @@ def contacts():
         contacts_set = Contact.all(page)
     return render_template("index.html", contacts=contacts_set, page=page)
 
+
 @app.route("/contacts/count")
 def contacts_count():
-        count = Contact.count()
-        return "(" + str(count) + " total Contacts)"
+    count = Contact.count()
+    return "(" + str(count) + " total Contacts)"
+
 
 @app.route("/contacts/new", methods=['GET'])
 def contacts_new_get():
@@ -87,12 +89,23 @@ def contacts_email_get(contact_id=0):
 @app.route("/contacts/<contact_id>", methods=["DELETE"])
 def contacts_delete(contact_id=0):
     contact = Contact.find(contact_id)
-    #contact.delete()
+    contact.delete()
     if request.headers.get('HX-Trigger') == 'delete-brn':
         flash("Deleted Contact!")
         return redirect("/contacts", 303)
     else:
         return ""
+
+
+@app.route("/contacts/", methods=["DELETE"])
+def contacts_delete_all():
+    contact_ids = list(map(int, request.form.getlist("selected_contact_ids")))
+    for contact_id in contact_ids:
+        contact = Contact.find(contact_id)
+        contact.delete()
+    flash("Deleted Contacts!")
+    contacts_set = Contact.all(1)
+    return render_template("index.html", contacts=contacts_set)
 
 
 if __name__ == "__main__":
