@@ -58,10 +58,7 @@ class Contact:
         return len(cls.db)
 
     @classmethod
-    def all(cls, page):
-        page = int(page)
-        start = (page - 1) * 10
-        end = start + 10
+    def all(cls):
         return list(cls.db.values())
 
     @classmethod

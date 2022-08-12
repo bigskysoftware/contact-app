@@ -118,5 +118,21 @@
     "phone": "123-456-7890",
     "email": "joe12@example.com",
     "errors": {}
+  },
+  {
+    "id": 18,
+    "first": null,
+    "last": null,
+    "phone": null,
+    "email": "restexample1@example.com",
+    "errors": {}
+  },
+  {
+    "id": 19,
+    "first": null,
+    "last": null,
+    "phone": null,
+    "email": "restexample2@example.com",
+    "errors": {}
   }
 ]
