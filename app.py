@@ -90,7 +90,7 @@ def contacts_email_get(contact_id=0):
 def contacts_delete(contact_id=0):
     contact = Contact.find(contact_id)
     contact.delete()
-    if request.headers.get('HX-Trigger') == 'delete-brn':
+    if request.headers.get('HX-Trigger') == 'delete-btn':
         flash("Deleted Contact!")
         return redirect("/contacts", 303)
     else:
