@@ -1,7 +1,7 @@
 from flask import (
-    Flask, redirect, render_template, request, flash, jsonify
+    Flask, redirect, render_template, request, flash, jsonify, send_file
 )
-from contacts_model import Contact
+from contacts_model import Contact, Archiver
 import time
 
 Contact.load_db()
@@ -29,7 +29,33 @@ def contacts():
             return render_template("rows.html", contacts=contacts_set)
     else:
         contacts_set = Contact.all()
-    return render_template("index.html", contacts=contacts_set)
+    return render_template("index.html", contacts=contacts_set, archiver=Archiver.get())
+
+
+@app.route("/contacts/archive", methods=["POST"])
+def start_archive():
+    archiver = Archiver.get()
+    archiver.run()
+    return render_template("archive_ui.html", archiver=archiver)
+
+
+@app.route("/contacts/archive", methods=["GET"])
+def archive_status():
+    archiver = Archiver.get()
+    return render_template("archive_ui.html", archiver=archiver)
+
+
+@app.route("/contacts/archive/file", methods=["GET"])
+def archive_content():
+    archiver = Archiver.get()
+    return send_file(archiver.archive_file(), "archive.json", as_attachment=True)
+
+
+@app.route("/contacts/archive", methods=["DELETE"])
+def reset_archive():
+    archiver = Archiver.get()
+    archiver.reset()
+    return render_template("archive_ui.html", archiver=archiver)
 
 
 @app.route("/contacts/count")

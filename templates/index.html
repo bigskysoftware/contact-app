@@ -2,6 +2,8 @@
 
 {% block content %}
 
+    {% include 'archive_ui.html' %}
+
     <form action="/contacts" method="get" class="tool-bar">
         <label for="search">Search Term</label>
         <input id="search" type="search" name="q" value="{{ request.args.get('q') or '' }}"
