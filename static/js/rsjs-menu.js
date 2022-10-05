@@ -23,19 +23,19 @@ document.querySelectorAll("[data-menu]").forEach(menu => {
 
   function toggleMenu(open = !isOpen()) {
     if (open) {
-      menu.dataset.menu = "open"
-      body.hidden = false
-      button.setAttribute("aria-expanded", "true")
-      items[0].focus()
+      menu.dataset.menu = "open";
+      body.hidden = false;
+      button.setAttribute("aria-expanded", "true");
+      items[0].focus();
     } else {
-      menu.dataset.menu = "closed"
-      body.hidden = true
-      button.setAttribute("aria-expanded", "false")
+      menu.dataset.menu = "closed";
+      body.hidden = true;
+      button.setAttribute("aria-expanded", "false");
     }
   }
 
-  toggleMenu(isOpen())
-  button.addEventListener("click", () => toggleMenu())
+  toggleMenu(isOpen());
+  button.addEventListener("click", () => toggleMenu());
 
   window.addEventListener("click", function clickAway(event) {
     if (!menu.isConnected) window.removeEventListener("click", clickAway);
