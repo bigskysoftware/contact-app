@@ -11,7 +11,7 @@ document.querySelectorAll("[data-menu]").forEach(menu => {
   const bodyId = body.id ?? (body.id = nanoid());
 
   button.setAttribute("aria-haspopup", "menu");
-  button.setAttribute("aria-controls", "bodyId");
+  button.setAttribute("aria-controls", bodyId);
 
   body.setAttribute("role", "menu");
 
