@@ -12,6 +12,8 @@ Contact.load_db()
 
 app = Flask(__name__)
 
+# WARNING: Do not put your secret key in the code for real applications!
+# Use an environment variable instead to keep it secret
 app.secret_key = b'hypermedia rocks'
 
 
@@ -96,7 +98,8 @@ def contacts_edit_get(contact_id=0):
 @app.route("/contacts/<contact_id>/edit", methods=["POST"])
 def contacts_edit_post(contact_id=0):
     c = Contact.find(contact_id)
-    c.update(request.form['first_name'], request.form['last_name'], request.form['phone'], request.form['email'])
+    c.update(request.form['first_name'], request.form['last_name'],
+             request.form['phone'], request.form['email'])
     if c.save():
         flash("Updated Contact!")
         return redirect("/contacts/" + str(contact_id))
@@ -163,7 +166,8 @@ def json_contacts_view(contact_id=0):
 @app.route("/api/v1/contacts/<contact_id>", methods=["PUT"])
 def json_contacts_edit(contact_id):
     c = Contact.find(contact_id)
-    c.update(request.form['first_name'], request.form['last_name'], request.form['phone'], request.form['email'])
+    c.update(request.form['first_name'], request.form['last_name'],
+             request.form['phone'], request.form['email'])
     if c.save():
         return c.__dict__
     else:
