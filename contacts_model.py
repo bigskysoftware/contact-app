@@ -70,12 +70,13 @@ class Contact:
 
     @classmethod
     def search(cls, text):
+        text_lower = text.lower()  # Convert the search text to lowercase
         result = []
         for c in cls.db.values():
-            match_first = c.first is not None and text in c.first
-            match_last = c.last is not None and text in c.last
-            match_email = c.email is not None and text in c.email
-            match_phone = c.phone is not None and text in c.phone
+            match_first = c.first is not None and text_lower in c.first.lower()
+            match_last = c.last is not None and text_lower in c.last.lower()
+            match_email = c.email is not None and text_lower in c.email.lower()
+            match_phone = c.phone is not None and text_lower in c.phone.lower()
             if match_first or match_last or match_email or match_phone:
                 result.append(c)
         return result
