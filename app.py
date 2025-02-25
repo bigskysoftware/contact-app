@@ -29,8 +29,8 @@ def contacts():
         if request.headers.get('HX-Trigger') == 'search':
             return render_template("rows.html", contacts=contacts_set)
     else:
-        contacts_set = Contact.all()
-    return render_template("index.html", contacts=contacts_set, archiver=Archiver.get())
+        contacts_set = Contact.all(page)
+    return render_template("index.html", contacts=contacts_set, page=page, archiver=Archiver.get())
 
 
 @app.route("/contacts/archive", methods=["POST"])
@@ -130,7 +130,7 @@ def contacts_delete_all():
         contact = Contact.find(contact_id)
         contact.delete()
     flash("Deleted Contacts!")
-    contacts_set = Contact.all(1)
+    contacts_set = Contact.all()
     return render_template("index.html", contacts=contacts_set)
 
 

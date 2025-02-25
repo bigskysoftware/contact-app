@@ -8,6 +8,7 @@
     <script src="/static/js/_hyperscript-0.9.7.js"></script>
     <script src="/static/js/rsjs-menu.js" type="module"></script>
     <script defer src="https://unpkg.com/alpinejs@3/dist/cdn.min.js"></script>
+    <script defer src="https://unpkg.com/sweetalert2@11.17.2/dist/sweetalert2.all.min.js"></script>
 </head>
 <body hx-boost="true">
 <main>
@@ -22,5 +23,15 @@
     {% endfor %}
     {% block content %}{% endblock %}
 </main>
+
+<script>
+    function sweetConfirm(elt, config) {
+        Swal.fire(config).then((result) => {
+            if(result.isConfirmed) {
+                elt.dispatchEvent(new Event('confirmed'));
+            }
+        })
+    }
+</script>
 </body>
 </html>

@@ -10,7 +10,7 @@
                     <label for="email">Email</label>
                     <input name="email" id="email" type="email"
                            hx-get="/contacts/{{ contact.id }}/email" hx-target="next .error"
-                           hx-trigger="change, keyup delay:200ms"
+                           hx-trigger="change, keyup delay:200ms changed"
                            placeholder="Email" value="{{ contact.email }}">
                     <span class="error">{{ contact.errors['email'] }}</span>
                 </p>
@@ -37,10 +37,16 @@
     </form>
 
     <button id="delete-btn"
+            class="bad bg color border"
             hx-delete="/contacts/{{ contact.id }}"
             hx-push-url="true"
-            hx-confirm="Are you sure you want to delete this contact?"
-            hx-target="body">
+            hx-trigger="confirmed"
+            hx-target="body"
+            @click="sweetConfirm($el, {
+                title: 'Delete this contacts?',
+                showCancelButton: true,
+                confirmButtonText: 'Delete'
+            })">
         Delete Contact
     </button>
 
