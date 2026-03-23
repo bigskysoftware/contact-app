@@ -30,20 +30,33 @@ def contacts():
             return render_template("rows.html", contacts=contacts_set)
     else:
         contacts_set = Contact.all()
-    return render_template("index.html", contacts=contacts_set, archiver=Archiver.get())
+    return render_template(
+        "index.html",
+        contacts=contacts_set,
+        archiver=Archiver.get(),
+        auto_download_archive=False,
+    )
 
 
 @app.route("/contacts/archive", methods=["POST"])
 def start_archive():
     archiver = Archiver.get()
     archiver.run()
-    return render_template("archive_ui.html", archiver=archiver)
+    return render_template(
+        "archive_ui.html",
+        archiver=archiver,
+        auto_download_archive=False,
+    )
 
 
 @app.route("/contacts/archive", methods=["GET"])
 def archive_status():
     archiver = Archiver.get()
-    return render_template("archive_ui.html", archiver=archiver)
+    return render_template(
+        "archive_ui.html",
+        archiver=archiver,
+        auto_download_archive=request.headers.get("HX-Request") == "true",
+    )
 
 
 @app.route("/contacts/archive/file", methods=["GET"])
@@ -56,7 +69,11 @@ def archive_content():
 def reset_archive():
     archiver = Archiver.get()
     archiver.reset()
-    return render_template("archive_ui.html", archiver=archiver)
+    return render_template(
+        "archive_ui.html",
+        archiver=archiver,
+        auto_download_archive=False,
+    )
 
 
 @app.route("/contacts/count")
