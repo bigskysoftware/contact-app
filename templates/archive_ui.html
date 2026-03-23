@@ -11,7 +11,11 @@
             </div>
         </div>
     {% elif archiver.status() == "Complete" %}
-        <a hx-boost="false" href="/contacts/archive/file" _="on load click() me">Archive Downloading!  Click here if the download does not start.</a>
+        <a
+            hx-boost="false"
+            href="/contacts/archive/file"
+            {% if auto_download_archive %}_="on load click() me"{% endif %}
+        >Archive Downloading!  Click here if the download does not start.</a>
         <button hx-delete="/contacts/archive">Clear Download</button>
     {% endif %}
 </div>
